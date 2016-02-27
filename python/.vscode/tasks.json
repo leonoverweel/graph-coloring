@@ -3,5 +3,5 @@
 	"command": "Python",
 	"isShellCommand": true,
 	"showOutput": "always",
-	"args": ["main.py", "data/graph0.json"]
+	"args": ["main.py", "data/graph1.json", "50", "2000"]
 }

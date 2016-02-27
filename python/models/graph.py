@@ -3,10 +3,14 @@ import json
 from vertex import Vertex
 
 class Graph:
-    vertices = {}
     
     def __init__(self, file_name=None):
         """Initializes a new Graph from a file."""
+        
+        # Initialize instance variables
+        self.vertices = {}
+        
+        # Read graph
         if file_name != None:
             self.read_file(file_name)
     
@@ -48,11 +52,16 @@ class Graph:
         
         # Check if both vertices exist
         if not x in self.vertices or not y in self.vertices:
-            return
+            return False
+            
+        # Check if the vertices are the same
+        if x == y:
+            return False
         
         # Add edge to both vertices
         self.vertices[x].add_edge(y)
         self.vertices[y].add_edge(x)
+        return True
         
     def remove_edge(self, x, y):
         """Removes the edge from x and y, if it exists."""
@@ -81,10 +90,16 @@ class Graph:
         return {}
         
     def set_vertex_value(self, x, data):
-        """Sets the value associated with the vertex x."""
+        """Adds data dict to the vertex x.
+        
+        If a key in data has value None, that key is deleted from the vertex's data. 
+        """
         if x in self.vertices and data is not None:
             for i in data:
-                self.vertices[x].data[i] = data[i]
+                if data[i] is not None:
+                    self.vertices[x].data[i] = data[i]
+                elif i in self.vertices[x].data:
+                    del self.vertices[x].data[i]
     
     def validate(self):
         """Makes sure graph doesn't contain invalid edges.
@@ -100,14 +115,17 @@ class Graph:
             
                 # Check for case 1
                 if not j in self.vertices:
+                    print 1, i, j
                     return False
                     
                 # Check for case 2
                 if not self.adjacent(j, i):
+                    print 2, i, j
                     return False
                     
                 # Check for case 3
                 if j == i:
+                    print 3, i, j
                     return False
         
         return True
@@ -152,4 +170,4 @@ class Graph:
             if pretty:
                 outfile.write(json.dumps(file_data, indent=4, sort_keys=True))
             else:
-                outfile.write(json.dumps(file_data, sort_keys=True))                
+                outfile.write(json.dumps(file_data, sort_keys=True))

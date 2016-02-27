@@ -1,11 +1,8 @@
 class Vertex:
     
-    adjacent_to = []
-    data = {}
-    
-    def __init__(self, adjacent_to=[], data={}):
-        self.adjacent_to = adjacent_to
-        self.data = data
+    def __init__(self, adjacent_to=None, data=None):
+        self.adjacent_to = adjacent_to if adjacent_to is not None else []
+        self.data = data if data is not None else {}
                 
     def add_edge(self, id):
         if not id in self.adjacent_to:
