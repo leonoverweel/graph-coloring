@@ -5,10 +5,10 @@ from vertex import Vertex
 class Graph:
     vertices = {}
     
-    def __init__(self, file=None):
+    def __init__(self, file_name=None):
         """Initializes a new Graph from a file."""
-        if file != None:
-            self.read_file(file)
+        if file_name != None:
+            self.read_file(file_name)
     
     def add_vertex(self, id, vertex):
         """Adds a vertex with given id, if no vertex with given id exists yet."""
@@ -112,14 +112,14 @@ class Graph:
         
         return True
     
-    def read_file(self, file):
+    def read_file(self, file_name):
         """Reads a Graph from a .json file.
         
         If the .json file is valid, self.vertices is updated; if not, it's not.
         """
         
         # Open the file
-        with open(file) as data_file:
+        with open(file_name) as data_file:
             data = json.load(data_file)
         
         # Add each vertex
@@ -130,10 +130,10 @@ class Graph:
         if not self.validate():
             self.vertices = {}
             
-    def write_file(self, file, pretty=False):
+    def write_file(self, file_name, pretty=False):
         """Writes a Graph to a .json file."""
         
-        # 
+        # Set up and fill adjacency list and data dicts
         adjacency_list = {}
         data = {}
         
@@ -141,12 +141,14 @@ class Graph:
             adjacency_list[i] = self.vertices[i].adjacent_to
             data[i] = self.vertices[i].data
         
+        # Create final dict to write to file
         file_data = {
             'adjacency_list': adjacency_list,
             'data': data
         }
 
-        with open(file, 'w') as outfile:
+        # Write to file
+        with open(file_name, 'w') as outfile:
             if pretty:
                 outfile.write(json.dumps(file_data, indent=4, sort_keys=True))
             else:
