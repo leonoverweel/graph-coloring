@@ -1,0 +1,7 @@
+{
+	"version": "0.1.0",
+	"command": "Python",
+	"isShellCommand": true,
+	"showOutput": "always",
+	"args": ["main.py", "data/graph0.json"]
+}
