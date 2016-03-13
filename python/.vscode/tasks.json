@@ -3,5 +3,11 @@
 	"command": "Python",
 	"isShellCommand": true,
 	"showOutput": "always",
-	"args": ["main.py", "data/graph1.json", "50", "2000"]
+	"args": [
+        "trial_runner.py", 
+        "-d", "\"C:\\Users\\lover\\OneDrive\\Documents\\TU Delft\\Research\\Graphs\\Testing\"", 
+        "-c", "descending",
+        "-o", "\"C:\\Users\\lover\\OneDrive\\Documents\\TU Delft\\Research\\Dumps\"",
+        "-v"
+    ]
 }
