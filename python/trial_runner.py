@@ -84,7 +84,7 @@ def main():
         
         # Record finishing time
         finish = datetime.datetime.now()
-        graph_data['runtime'] = (finish - start).microseconds / 1000
+        graph_data['runtime'] = (finish - start).total_seconds()
         
         if params.verbose:
             print '- Finish timestamp:', finish
