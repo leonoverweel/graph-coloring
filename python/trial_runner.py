@@ -4,7 +4,7 @@ import datetime
 import subprocess
 import sys
 
-from coloring import Coloring
+from coloring.luby_jones import Coloring
 from models.graph import Graph
 from models.vertex import Vertex
 import util.file_reader
@@ -78,7 +78,7 @@ def main():
         if params.verbose:
             print '- Coloring graph...',
         coloring = Coloring(graph)
-        graph_data['colors'] = coloring.color(False)
+        graph_data['colors'] = coloring.color(True)
         if params.verbose:
             print 'done'
         
