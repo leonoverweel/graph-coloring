@@ -11,13 +11,18 @@ class Coloring:
 		
 		colored = 0
 		round = 0
-	
+		
+		# Sort
 		if sort == "id":
 			sorted_vertices = sorted(self.vertices, key = lambda x : x)
 		elif sort == "ascending":
 			sorted_vertices = sorted(self.vertices, key = lambda x : len(self.vertices[x].adjacent_to))
 		elif sort == "descending":
 			sorted_vertices = sorted(self.vertices, key = lambda x : -len(self.vertices[x].adjacent_to))
+		
+		# Assign numbers
+		for i in range(0, len(sorted_vertices)):
+			self.graph.set_vertex_value(sorted_vertices[i], {'number': i})
 		
 		# Color all vertices
 		while colored < len(self.graph.vertices):
@@ -30,6 +35,7 @@ class Coloring:
 				if 'color' in self.graph.get_vertex_value(vertex):
 					continue
 			
+				vertex_number = self.graph.get_vertex_value(vertex)['number']
 				neighbors = self.graph.neighbors(vertex)
 				local_max = True
 				
@@ -38,7 +44,7 @@ class Coloring:
 					data_neighbor = self.graph.get_vertex_value(neighbor)
 					if 'color' in data_neighbor and data_neighbor['color'] != round:
 						continue
-					if neighbor > vertex:
+					if data_neighbor['number'] > vertex_number:
 						local_max = False
 				
 				# Color if local  max
