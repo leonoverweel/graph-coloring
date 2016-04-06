@@ -20,7 +20,10 @@ class Coloring:
 			sorted_vertices = sorted(self.vertices, key = lambda x : -len(self.vertices[x].adjacent_to))
 		
 		# Color all vertices
-		while colored < len(sorted_vertices):
+		while colored < len(self.graph.vertices):
+			
+			# Remove colored vertices
+			sorted_vertices = [x for x in sorted_vertices if not 'color' in self.graph.get_vertex_value(x)]
 			
 			# Test if vertex needs to be colored this round
 			for vertex in sorted_vertices:
@@ -49,7 +52,7 @@ class Coloring:
 		# Verify
 		correct = True
 		if verify:
-			for vertex in sorted_vertices:
+			for vertex in self.graph.vertices:
 				neighbors = self.graph.neighbors(vertex)
 				for neighbor in neighbors:
 					if self.graph.get_vertex_value(vertex)['color'] == self.graph.get_vertex_value(neighbor)['color']:

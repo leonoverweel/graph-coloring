@@ -5,9 +5,9 @@
 	"showOutput": "always",
 	"args": [
         "trial_runner.py", 
-        "-d", "\"C:\\Users\\lover\\OneDrive\\Documents\\TU Delft\\Research\\Graphs\\Testing\"", 
+        "-d", "\"C:\\Users\\Leon\\OneDrive\\Documents\\TU Delft\\Research\\Graphs\\Testing\"", 
         "-c", "id",
-        "-o", "\"C:\\Users\\lover\\OneDrive\\Documents\\TU Delft\\Research\\Dumps\"",
+        "-o", "\"C:\\Users\\Leon\\OneDrive\\Documents\\TU Delft\\Research\\Dumps\"",
         "-v"
     ]
 }

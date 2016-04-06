@@ -78,7 +78,7 @@ def main():
         if params.verbose:
             print '- Coloring graph...',
         coloring = Coloring(graph)
-        graph_data['colors'] = coloring.color(True, graph_data['comment'])
+        graph_data['colors'] = coloring.color(False, graph_data['comment'])
         if params.verbose:
             print 'done'
         
