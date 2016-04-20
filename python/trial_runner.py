@@ -4,7 +4,7 @@ import datetime
 import subprocess
 import sys
 
-from coloring.luby_jones import Coloring
+from coloring.luby_jones_smallest import Coloring
 from models.graph import Graph
 from models.vertex import Vertex
 import util.file_reader
