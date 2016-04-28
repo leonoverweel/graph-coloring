@@ -10,7 +10,7 @@ class Coloring:
 		"""Color the graph and return how many unique colors were used."""
 		
 		colored = 0
-		round = 0
+		colors = 0
 		
 		# Sort
 		if sort == "id":
@@ -53,9 +53,10 @@ class Coloring:
 					while not self.set_vertex_color(vertex, color):
 						color += 1
 					colored += 1
-								
-			# Increment round
-			round += 1
+					
+					# If this is a new color, save that
+					if color > colors:
+						colors = color
 		
 		# Verify
 		correct = True
@@ -66,7 +67,7 @@ class Coloring:
 					if self.graph.get_vertex_value(vertex)['color'] == self.graph.get_vertex_value(neighbor)['color']:
 						return -1
 		
-		return round
+		return colors + 1
 
 	def set_vertex_color(self, id, color):
 		"""Set the color of a vertex by id, if it exists and the color is allowed. Return True if successful, False if not."""
