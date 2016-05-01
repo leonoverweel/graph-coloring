@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AdjacencyList.cpp" />
+    <ClCompile Include="source\FileReader.cpp" />
     <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AdjacencyList.h" />
+    <ClInclude Include="include\FileReader.h" />
     <ClInclude Include="include\Vertex.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
