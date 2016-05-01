@@ -1,12 +1,11 @@
 #include "../include/AdjacencyList.h"
 
 #include <unordered_map>
-#include <unordered_set>
 
 // Constructor.
 AdjacencyList::AdjacencyList()
 {
-	adjacencyList = std::unordered_map<uint64_t, std::unordered_set<uint64_t>>();
+	adjacencyList = std::unordered_map<uint64_t, std::vector<uint64_t>>();
 	sorted = false;
 }
 
@@ -19,12 +18,12 @@ void AdjacencyList::addEdge(uint64_t a, uint64_t b)
 }
 
 // Get a vertex's neighbors.
-std::unordered_set<uint64_t> AdjacencyList::getNeighbors(uint64_t vertexId)
+std::vector<uint64_t> AdjacencyList::getNeighbors(uint64_t vertexId)
 {
 	auto search = adjacencyList.find(vertexId);
 
 	if (search == adjacencyList.end()) {
-		return std::unordered_set<uint64_t>();
+		return std::vector<uint64_t>();
 	}
 			
 	return search->second;
@@ -42,19 +41,19 @@ std::set<Vertex> AdjacencyList::getSorted(bool byDegree)
 void AdjacencyList::addDirectedEdge(uint64_t a, uint64_t b)
 {
 	auto search = adjacencyList.find(a);
-	std::unordered_set<uint64_t> neighbors;
+	std::vector<uint64_t> neighbors;
 
 	if (search == adjacencyList.end())
 	{
-		neighbors = std::unordered_set<uint64_t>();
-		neighbors.insert(b);
+		neighbors = std::vector<uint64_t>();
+		neighbors.push_back(b);
 		adjacencyList.insert(std::make_pair(a, neighbors));
 	}
 
 	else
 	{
 		neighbors = search->second;
-		neighbors.insert(b);
+		neighbors.push_back(b);
 		adjacencyList[a] = neighbors;
 	}
 

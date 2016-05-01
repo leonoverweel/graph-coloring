@@ -11,7 +11,7 @@ class AdjacencyList
 
 private:
 
-	std::unordered_map<uint64_t, std::unordered_set<uint64_t>> adjacencyList;
+	std::unordered_map<uint64_t, std::vector<uint64_t>> adjacencyList;
 	std::set<Vertex> orderedVertices;
 	bool sorted, byDegree;
 
@@ -39,7 +39,7 @@ public:
 	*	@param vertexId id of the vertex whose neighbors to get
 	*	@return the ids of vertex's neighbors
 	*/
-	std::unordered_set<uint64_t> getNeighbors(uint64_t vertexId);
+	std::vector<uint64_t> getNeighbors(uint64_t vertexId);
 
 	/**
 	*	Get a sorted set of all vertex ids. If not already sorted appropriately, sort first.
