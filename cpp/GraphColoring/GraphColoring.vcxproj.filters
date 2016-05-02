@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Coloring">
+      <UniqueIdentifier>{539668d0-f848-4872-9f56-254c81fa0bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Coloring">
+      <UniqueIdentifier>{af746c45-e48a-475a-b02e-aea85f74f4c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="source\FileReader.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SequentialGreedy.cpp">
+      <Filter>Source Files\Coloring</Filter>
+    </ClCompile>
+    <ClCompile Include="include\SequentialGreedy.h">
+      <Filter>Header Files\Coloring</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
