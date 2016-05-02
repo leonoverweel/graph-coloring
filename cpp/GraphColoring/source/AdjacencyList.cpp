@@ -53,8 +53,11 @@ void AdjacencyList::addDirectedEdge(uint64_t a, uint64_t b)
 	else
 	{
 		neighbors = search->second;
-		neighbors.push_back(b);
-		adjacencyList[a] = neighbors;
+		if (std::find(neighbors.begin(), neighbors.end(), b) == neighbors.end())
+		{
+			neighbors.push_back(b);
+			adjacencyList[a] = neighbors;
+		}
 	}
 
 }
