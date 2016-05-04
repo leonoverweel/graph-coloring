@@ -1,22 +1,30 @@
 #include "../include/AdjacencyList.h"
 #include "../include/FileReader.h"
+#include "../include/LubyJonesGreedy.h"
 #include "../include/SequentialGreedy.h"
 
 #include <iostream>
 #include <string>
 #include <chrono>
 
+#define SEQUENTIAL_GREEDY 0
+#define LUBY_JONES_GREEDY 1
+
 int main() {
 
 	typedef std::chrono::high_resolution_clock Clock;
 	typedef std::chrono::milliseconds ms;
 	Clock::time_point start, finish;
-	
-	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
-	std::string path = base + "Testing/arenas-jazz/out.arenas-jazz";
+	uint16_t colors;
 
+	// Graph location
+	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
+	std::string path = base + "Testing/reactome/out.reactome";
+
+	// Coloring parameters
 	bool sortByDegree = true;
 	bool iterateAscending = false;
+	int algorithm = LUBY_JONES_GREEDY;
 
 	// Read file
 	std::cout << "Reading file ... ";
@@ -40,12 +48,17 @@ int main() {
 	std::cout << "Coloring graph ... ";
 	start = Clock::now();
 
-	uint16_t colors = SequentialGreedy::color(adjacencyList, sortedVertices, iterateAscending);
+	if(algorithm == SEQUENTIAL_GREEDY)
+		colors = SequentialGreedy::color(adjacencyList, sortedVertices, iterateAscending);
+
+	else if(algorithm == LUBY_JONES_GREEDY)
+		colors = LubyJonesGreedy::color(adjacencyList, sortedVertices, iterateAscending);
 
 	finish = Clock::now();
-	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl << std::endl;
+	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl;
 
-	std::cout << "Colors: " << colors << std::endl;
+	// Output coloring results results
+	std::cout << "\nColors: " << colors << std::endl;
 
 	while (1) {}
 
