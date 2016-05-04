@@ -3,7 +3,7 @@
 #include <iostream>
 
 // Greedily color all vertices.
-int SequentialGreedy::color(AdjacencyList adjacencyList, std::set<Vertex> sortedVertices, bool ascending)
+int SequentialGreedy::color(AdjacencyList &adjacencyList, std::set<Vertex> &sortedVertices, bool ascending)
 {
 	static std::unordered_map<uint64_t, uint16_t> colors = std::unordered_map<uint64_t, uint16_t>();
 	uint16_t highestColor = 0;
