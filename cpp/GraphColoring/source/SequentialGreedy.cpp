@@ -1,7 +1,5 @@
 #include "..\include\SequentialGreedy.h"
 
-#include <iostream>
-
 // Greedily color all vertices.
 int SequentialGreedy::color(AdjacencyList &adjacencyList, std::set<Vertex> &sortedVertices, bool ascending)
 {
