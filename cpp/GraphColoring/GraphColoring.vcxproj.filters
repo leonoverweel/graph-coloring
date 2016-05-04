@@ -36,6 +36,9 @@
     <ClCompile Include="include\SequentialGreedy.h">
       <Filter>Header Files\Coloring</Filter>
     </ClCompile>
+    <ClCompile Include="source\Coloring.cpp">
+      <Filter>Source Files\Coloring</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AdjacencyList.h">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="include\FileReader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Coloring.h">
+      <Filter>Header Files\Coloring</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

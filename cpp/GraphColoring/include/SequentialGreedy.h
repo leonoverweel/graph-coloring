@@ -1,17 +1,11 @@
 #pragma once
 
-#include "AdjacencyList.h"
+#include "Coloring.h"
 
-#include <unordered_map>
-
-class SequentialGreedy {
-
-private:
-	typedef std::unordered_map<uint64_t, uint16_t> ColorMap;
-
-	static uint16_t colorVertexGreedy(uint64_t vertex, std::vector<uint64_t> &neighbors, ColorMap &colors);
+class SequentialGreedy: public Coloring {
 
 public:
+
 	/**
 	*	Color a graph using the sequential greedy algorithm.
 	*
