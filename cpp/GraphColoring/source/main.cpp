@@ -15,6 +15,7 @@ int main() {
 	typedef std::chrono::high_resolution_clock Clock;
 	typedef std::chrono::milliseconds ms;
 	Clock::time_point start, finish;
+	
 	uint16_t colors;
 
 	// Graph location
@@ -48,11 +49,14 @@ int main() {
 	std::cout << "Coloring graph ... ";
 	start = Clock::now();
 
-	if(algorithm == SEQUENTIAL_GREEDY)
-		colors = SequentialGreedy::color(adjacencyList, sortedVertices, iterateAscending);
+	Colorer* colorer;
+	
+	if (algorithm == SEQUENTIAL_GREEDY)
+		colorer = &SequentialGreedy(adjacencyList, sortedVertices);
+	else if (algorithm == LUBY_JONES_GREEDY)
+		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
 
-	else if(algorithm == LUBY_JONES_GREEDY)
-		colors = LubyJonesGreedy::color(adjacencyList, sortedVertices, iterateAscending);
+	colors = colorer->color(iterateAscending);
 
 	finish = Clock::now();
 	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl;

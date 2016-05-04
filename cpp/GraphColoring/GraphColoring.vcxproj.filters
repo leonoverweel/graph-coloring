@@ -30,16 +30,13 @@
     <ClCompile Include="source\FileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\SequentialGreedy.cpp">
-      <Filter>Source Files\Coloring</Filter>
-    </ClCompile>
-    <ClCompile Include="include\SequentialGreedy.h">
-      <Filter>Header Files\Coloring</Filter>
-    </ClCompile>
     <ClCompile Include="source\Coloring.cpp">
       <Filter>Source Files\Coloring</Filter>
     </ClCompile>
     <ClCompile Include="source\LubyJonesGreedy.cpp">
+      <Filter>Source Files\Coloring</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SequentialGreedy.cpp">
       <Filter>Source Files\Coloring</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +50,13 @@
     <ClInclude Include="include\FileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Coloring.h">
+    <ClInclude Include="include\LubyJonesGreedy.h">
       <Filter>Header Files\Coloring</Filter>
     </ClInclude>
-    <ClInclude Include="include\LubyJonesGreedy.h">
+    <ClInclude Include="include\SequentialGreedy.h">
+      <Filter>Header Files\Coloring</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Colorer.h">
       <Filter>Header Files\Coloring</Filter>
     </ClInclude>
   </ItemGroup>

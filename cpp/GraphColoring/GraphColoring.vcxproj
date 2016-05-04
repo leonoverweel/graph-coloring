@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\SequentialGreedy.h" />
     <ClCompile Include="source\AdjacencyList.cpp" />
     <ClCompile Include="source\Coloring.cpp" />
     <ClCompile Include="source\FileReader.cpp" />
@@ -30,8 +29,9 @@
   <ItemGroup>
     <ClInclude Include="include\AdjacencyList.h" />
     <ClInclude Include="include\FileReader.h" />
-    <ClInclude Include="include\Coloring.h" />
+    <ClInclude Include="include\Colorer.h" />
     <ClInclude Include="include\LubyJonesGreedy.h" />
+    <ClInclude Include="include\SequentialGreedy.h" />
     <ClInclude Include="include\Vertex.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
