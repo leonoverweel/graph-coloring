@@ -1,5 +1,5 @@
-#include "../include/AdjacencyList.h"
 #include "../include/FileReader.h"
+
 #include "../include/LubyJonesGreedy.h"
 #include "../include/SequentialGreedy.h"
 
