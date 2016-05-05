@@ -5,7 +5,7 @@ Colorer::Colorer(AdjacencyList & adjacencyList, std::set<Vertex>& sortedVertices
 	:adjacencyList(adjacencyList), sortedVertices(sortedVertices) { }
 
 // Default color function returns -1 if not implemented by child class.
-int Colorer::color(bool ascending) 
+int Colorer::color(bool ascending, bool miscParam) 
 { 
 	return -1; 
 }

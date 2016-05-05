@@ -58,8 +58,48 @@ void LubyJonesGreedy::colorVertex(NumberMap& vertexNumbers, ColorMap& colors, ui
 	}
 }
 
+// Color a vertex if it is a local maximum or minimum.
+void LubyJonesGreedy::colorVertexMinMax(NumberMap& vertexNumbers, ColorMap& colors, uint16_t& highest, uint64_t vertexId)
+{
+
+	// Skip vertex if already colored.
+	auto search = colors.find(vertexId);
+	if (search != colors.end()) return;
+
+	// Check if local min or max.
+	auto vertexNumber = vertexNumbers.find(vertexId)->second;
+	auto neighbors = adjacencyList.getNeighbors(vertexId);
+	bool localMax = true;
+	bool localMin = true;
+
+	for (uint64_t neighbor : neighbors)
+	{
+		uint64_t neighborNumber = vertexNumbers.find(neighbor)->second;
+		auto neighborSearch = colors.find(neighbor);
+
+		if (neighborNumber > vertexNumber && neighborSearch == colors.end())
+			localMax = false;
+
+		else if (neighborNumber < vertexNumber && neighborSearch == colors.end())
+			localMin = false;
+
+		if (!localMax && !localMin)
+			break;
+	}
+
+	// Color with lowest allowed color if local min or max.
+	if (localMax || localMin)
+	{
+		uint16_t color = lowestAllowedColor(neighbors, colors);
+		colors.insert(std::make_pair(vertexId, color));
+
+		if (color > highest)
+			highest = color;
+	}
+}
+
 // Color the graph.
-int LubyJonesGreedy::color(bool ascending)
+int LubyJonesGreedy::color(bool ascending, bool minMax)
 {
 	// Return 0 for empty graph
 	if (sortedVertices.size() == 0)
@@ -69,16 +109,25 @@ int LubyJonesGreedy::color(bool ascending)
 	NumberMap& vertexNumbers = assignNumbers(ascending);
 	uint16_t highestColor = 0;
 	
-	
-	while (colors.size() < sortedVertices.size())
-	{
-		if (ascending)
-			for (auto it = sortedVertices.begin(); it != sortedVertices.end(); ++it)
-				colorVertex(vertexNumbers, colors, highestColor, it->id);
-		else
-			for (auto it = sortedVertices.rbegin(); it != sortedVertices.rend(); ++it)
-				colorVertex(vertexNumbers, colors, highestColor, it->id);
-	}
-	
+	// Ascending, minMax
+	if (ascending && minMax)
+		for (auto it = sortedVertices.begin(); it != sortedVertices.end(); ++it)
+			colorVertexMinMax(vertexNumbers, colors, highestColor, it->id);
+
+	// Ascending, not minMax
+	else if (ascending && !minMax)
+		for (auto it = sortedVertices.begin(); it != sortedVertices.end(); ++it)
+			colorVertex(vertexNumbers, colors, highestColor, it->id);
+
+	// Descending, minMax
+	else if (!ascending && minMax)
+		for (auto it = sortedVertices.rbegin(); it != sortedVertices.rend(); ++it)
+			colorVertexMinMax(vertexNumbers, colors, highestColor, it->id);
+
+	// Descending, not minMax
+	else
+		for (auto it = sortedVertices.rbegin(); it != sortedVertices.rend(); ++it)
+			colorVertex(vertexNumbers, colors, highestColor, it->id);
+
 	return highestColor + 1;
 }

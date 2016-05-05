@@ -36,7 +36,8 @@ public:
 	*	Color the graph. This method returns -1 unless it is overriden by a class that inherits from this class.
 	*
 	*	@param ascending whether the sorted list of vertex ids should be iterated in an ascending order
+	*	@param miscParam parameter different algorithms can use to vary their behavior
 	*/
-	virtual int color(bool ascending);
+	virtual int color(bool ascending, bool miscParam);
 
 };

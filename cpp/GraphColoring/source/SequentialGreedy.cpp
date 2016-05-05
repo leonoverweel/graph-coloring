@@ -16,7 +16,7 @@ void SequentialGreedy::colorVertex(ColorMap& colors, uint16_t& highest, uint64_t
 }
 
 // Greedily color all vertices.
-int SequentialGreedy::color(bool ascending)
+int SequentialGreedy::color(bool ascending, bool miscParam)
 {
 	static std::unordered_map<uint64_t, uint16_t> colors = std::unordered_map<uint64_t, uint16_t>();
 	uint16_t highestColor = 0;

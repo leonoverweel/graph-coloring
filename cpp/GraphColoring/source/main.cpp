@@ -7,17 +7,19 @@
 #include <string>
 #include <chrono>
 
-#define SEQUENTIAL_GREEDY 0
-#define LUBY_JONES_GREEDY 1
+#define SEQUENTIAL_GREEDY	0
+#define LUBY_JONES_GREEDY	1
+#define MIN_MAX_GREEDY		2
 
 int main() {
 
 	typedef std::chrono::high_resolution_clock Clock;
 	typedef std::chrono::milliseconds ms;
 	Clock::time_point start, finish;
-	
-	uint16_t colors;
 
+	Colorer* colorer;
+	uint16_t colors;
+	
 	// Graph location
 	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
 	std::string path = base + "Testing/reactome/out.reactome";
@@ -25,7 +27,7 @@ int main() {
 	// Coloring parameters
 	bool sortByDegree = true;
 	bool iterateAscending = false;
-	int algorithm = LUBY_JONES_GREEDY;
+	int algorithm = MIN_MAX_GREEDY;
 
 	// Read file
 	std::cout << "Reading file ... ";
@@ -49,14 +51,25 @@ int main() {
 	std::cout << "Coloring graph ... ";
 	start = Clock::now();
 
-	Colorer* colorer;
-	
-	if (algorithm == SEQUENTIAL_GREEDY)
-		colorer = &SequentialGreedy(adjacencyList, sortedVertices);
-	else if (algorithm == LUBY_JONES_GREEDY)
-		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
+	switch (algorithm)
+	{
 
-	colors = colorer->color(iterateAscending);
+	case SEQUENTIAL_GREEDY:
+		colorer = &SequentialGreedy(adjacencyList, sortedVertices);
+		colors = colorer->color(iterateAscending, false);
+		break;
+
+	case LUBY_JONES_GREEDY:
+		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
+		colors = colorer->color(iterateAscending, false);
+		break;
+
+	case MIN_MAX_GREEDY:
+		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
+		colors = colorer->color(iterateAscending, true);
+		break;
+
+	}
 
 	finish = Clock::now();
 	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl;
