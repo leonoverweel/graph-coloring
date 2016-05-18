@@ -1,17 +1,36 @@
 #pragma once
 
-#include "AdjacencyList.h"
+#include "Graph.h"
 
 #include <unordered_map>
 
 class Colorer
 {
 
-protected:
-	typedef std::unordered_map<uint64_t, uint16_t> ColorMap;
+public:
 
-	AdjacencyList& adjacencyList;
-	std::set<Vertex>& sortedVertices;
+	/**
+	*	Color the graph. This method returns -1 unless it is overriden by a class that inherits from this class.
+	*
+	*	@param verify whether the coloring should be checked for correctness
+	*	@param miscParam parameter different algorithms can use to vary their behavior
+	*	@return the number of colors used to color the graph
+	*/
+	virtual int color(bool verify, bool miscParam);
+
+protected:
+	typedef std::unordered_map<Graph::Vertex, Graph::Color> ColorMap;
+
+	Graph& graph;
+	Graph::VertexVector& sortedVertices;
+
+	/**
+	*	Constructor.
+	*
+	*	@param adjacencyList the adjacency list representing the graph to be colored
+	*	@param sortedVertices a list of the vertex ids, sorted in the order in which they should be colored
+	*/
+	Colorer(Graph &graph, Graph::VertexVector &sortedVertices);
 
 	/**
 	*	Greedily find the lowest allowed color a vertex, by trying increasing colors until one is allowed.
@@ -20,24 +39,14 @@ protected:
 	*	@param colors unordered map from vertex ids to their color
 	*	@return a color for the vertex
 	*/
-	uint16_t lowestAllowedColor(std::vector<uint64_t> &neighbors, ColorMap &colors);
+	Graph::Color lowestAllowedColor(Graph::VertexVector &neighbors, ColorMap &colors);
 
 	/**
-	*	Constructor.
+	*	Check to see if a valid coloring was performed.
 	*
-	*	@param adjacencyList the adjacency list representing the graph to be colored
-	*	@param sortedVertexIds a list of the vertex ids, sorted in the order in which they should be colored
+	*	@param colors the map from Graph::Vertex to Graph::Color of colors assigned to vertices
+	*	@return true if this is a valid coloring for the graph
 	*/
-	Colorer(AdjacencyList& adjacencyList, std::set<Vertex>& sortedVertexIds);
-
-public:
-
-	/**
-	*	Color the graph. This method returns -1 unless it is overriden by a class that inherits from this class.
-	*
-	*	@param ascending whether the sorted list of vertex ids should be iterated in an ascending order
-	*	@param miscParam parameter different algorithms can use to vary their behavior
-	*/
-	virtual int color(bool ascending, bool miscParam);
+	bool verify(ColorMap colors);
 
 };

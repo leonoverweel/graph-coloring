@@ -1,6 +1,7 @@
-#include "../include/FileReader.h"
+//#include "../include/FileReader.h"
+#include "../include/Graph.h"
 
-#include "../include/LubyJonesGreedy.h"
+//#include "../include/LubyJonesGreedy.h"
 #include "../include/SequentialGreedy.h"
 
 #include <iostream>
@@ -26,27 +27,21 @@ int main() {
 
 	// Coloring parameters
 	bool sortByDegree = true;
-	bool iterateAscending = false;
-	int algorithm = MIN_MAX_GREEDY;
+	bool sortAscending = false;
+	bool verify = false;
+	int algorithm = SEQUENTIAL_GREEDY;
 
 	// Read file
 	std::cout << "Reading file ... ";
 	start = Clock::now();
 	
-	AdjacencyList adjacencyList = FileReader::read(path);
+	Graph graph = Graph(path, sortByDegree, sortAscending);
 
 	finish = Clock::now();
 	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl;
 
-	// Sort vertices
-	std::cout << "Sorting vertices ... ";
-	start = Clock::now();
-
-	std::set<Vertex> sortedVertices = adjacencyList.getSorted(sortByDegree);
-
-	finish = Clock::now();
-	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl;
-
+	Graph::VertexVector sortedVertices = graph.getSortedVertices();
+	
 	// Color graph
 	std::cout << "Coloring graph ... ";
 	start = Clock::now();
@@ -55,11 +50,11 @@ int main() {
 	{
 
 	case SEQUENTIAL_GREEDY:
-		colorer = &SequentialGreedy(adjacencyList, sortedVertices);
-		colors = colorer->color(iterateAscending, false);
+		colorer = &SequentialGreedy(graph, sortedVertices);
+		colors = colorer->color(verify, false);
 		break;
 
-	case LUBY_JONES_GREEDY:
+	/*case LUBY_JONES_GREEDY:
 		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
 		colors = colorer->color(iterateAscending, false);
 		break;
@@ -67,7 +62,7 @@ int main() {
 	case MIN_MAX_GREEDY:
 		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
 		colors = colorer->color(iterateAscending, true);
-		break;
+		break;*/
 
 	}
 

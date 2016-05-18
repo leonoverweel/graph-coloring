@@ -24,34 +24,19 @@
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\AdjacencyList.cpp">
+    <ClCompile Include="source\Graph.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\FileReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Coloring.cpp">
-      <Filter>Source Files\Coloring</Filter>
-    </ClCompile>
-    <ClCompile Include="source\LubyJonesGreedy.cpp">
-      <Filter>Source Files\Coloring</Filter>
     </ClCompile>
     <ClCompile Include="source\SequentialGreedy.cpp">
       <Filter>Source Files\Coloring</Filter>
     </ClCompile>
+    <ClCompile Include="source\Colorer.cpp">
+      <Filter>Source Files\Coloring</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AdjacencyList.h">
+    <ClInclude Include="include\Graph.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\FileReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\LubyJonesGreedy.h">
-      <Filter>Header Files\Coloring</Filter>
     </ClInclude>
     <ClInclude Include="include\SequentialGreedy.h">
       <Filter>Header Files\Coloring</Filter>

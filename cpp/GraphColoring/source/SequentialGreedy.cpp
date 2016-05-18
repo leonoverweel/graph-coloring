@@ -1,35 +1,35 @@
 #include "..\include\SequentialGreedy.h"
 
+#include <iostream>
+
 // Constructor
-SequentialGreedy::SequentialGreedy(AdjacencyList & adjacencyList, std::set<Vertex>& sortedVertices)
-	: Colorer(adjacencyList, sortedVertices) { }
+SequentialGreedy::SequentialGreedy(Graph &graph, Graph::VertexVector &sortedVertices)
+	: Colorer(graph, sortedVertices) { }
 
 // Color one vertex
-void SequentialGreedy::colorVertex(ColorMap& colors, uint16_t& highest, uint64_t vertexId)
+void SequentialGreedy::colorVertex(ColorMap &colors, Graph::Color &highest, Graph::Vertex vertex)
 {
-	uint16_t color = lowestAllowedColor(adjacencyList.getNeighbors(vertexId), colors);
+	Graph::Color color = lowestAllowedColor(graph.getNeighbors(vertex), colors);
 	
-	colors.insert(std::make_pair(vertexId, color));
+	colors.insert(std::make_pair(vertex, color));
 
 	if (color > highest)
 		highest = color;
 }
 
 // Greedily color all vertices.
-int SequentialGreedy::color(bool ascending, bool miscParam)
+int SequentialGreedy::color(bool verify, bool miscParam)
 {
-	static std::unordered_map<uint64_t, uint16_t> colors = std::unordered_map<uint64_t, uint16_t>();
+	static ColorMap colors = ColorMap();
 	uint16_t highestColor = 0;
 
-	// Ascending order
-	if (ascending)
-		for (auto vertex = sortedVertices.begin(); vertex != sortedVertices.end(); ++vertex)
-			colorVertex(colors, highestColor, vertex->id);
+	// Color each vertex.
+	for (int i = 0; i < sortedVertices.size(); i++)
+		colorVertex(colors, highestColor, sortedVertices.at(i));
 
-	// Descending order
-	else
-		for (auto vertex = sortedVertices.rbegin(); vertex != sortedVertices.rend(); ++vertex)
-			colorVertex(colors, highestColor, vertex->id);
+	// Verify the coloring, if necessary.
+	if (verify && !Colorer::verify(colors))
+		return -1;
 
 	return highestColor + 1;
 }
