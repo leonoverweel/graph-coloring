@@ -28,7 +28,8 @@ int LubyJonesGreedy::color(bool verify, bool minMax)
 	{
 		round++;
 
-		for (Graph::Vertex vertex = 0; vertex < sortedVertices.size(); vertex++)
+		#pragma omp parallel for reduction (+:colored)
+		for (int vertex = 0; vertex < sortedVertices.size(); vertex++)
 		{
 
 			// Skip vertex if already colored

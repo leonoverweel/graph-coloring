@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <omp.h>
 
 #define SEQUENTIAL_GREEDY	0
 #define LUBY_JONES_GREEDY	1
@@ -21,13 +22,14 @@ int main() {
 	
 	// Graph location
 	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
-	std::string path = base + "Testing/arenas-jazz/out.arenas-jazz";
+	std::string path = base + "Testing/reactome/out.reactome";
 
 	// Coloring parameters
 	bool sortByDegree = true;
 	bool sortAscending = false;
 	bool verify = true;
 	int algorithm = LUBY_JONES_GREEDY;
+	omp_set_num_threads(4);
 
 	// Read file
 	std::cout << "Reading file ... ";

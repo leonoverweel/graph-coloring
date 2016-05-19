@@ -1,6 +1,7 @@
 #include "../include/Colorer.h"
 
 #include <set>
+#include <iostream>
 
 // Constructor.
 Colorer::Colorer(Graph &graph, Graph::VertexVector &sortedVertices)
@@ -51,14 +52,14 @@ bool Colorer::verify()
 		Graph::Color vertexColor = graph.getColor(vertex);
 		if (vertexColor == 0)
 			return false;
-
+			
 		// Make sure none of the vertex's neighbors have the same color.
 
 		Graph::VertexVector neighbors = graph.getNeighbors(vertex);
 		for (auto neighbor : neighbors)
 		{
 			Graph::Color neighborColor = graph.getColor(neighbor);
-			if (vertexColor == neighborColor) 
+			if (vertexColor == neighborColor)
 				return false;
 		}
 	}
