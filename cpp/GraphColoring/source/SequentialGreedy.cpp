@@ -7,11 +7,11 @@ SequentialGreedy::SequentialGreedy(Graph &graph, Graph::VertexVector &sortedVert
 	: Colorer(graph, sortedVertices) { }
 
 // Color one vertex
-void SequentialGreedy::colorVertex(ColorMap &colors, Graph::Color &highest, Graph::Vertex vertex)
+void SequentialGreedy::colorVertex(Graph::Color &highest, Graph::Vertex vertex)
 {
-	Graph::Color color = lowestAllowedColor(graph.getNeighbors(vertex), colors);
+	Graph::Color color = lowestAllowedColor(graph.getNeighbors(vertex));
 	
-	colors.insert(std::make_pair(vertex, color));
+	graph.setColor(vertex, color);
 
 	if (color > highest)
 		highest = color;
@@ -20,16 +20,15 @@ void SequentialGreedy::colorVertex(ColorMap &colors, Graph::Color &highest, Grap
 // Greedily color all vertices.
 int SequentialGreedy::color(bool verify, bool miscParam)
 {
-	static ColorMap colors = ColorMap();
-	uint16_t highestColor = 0;
+	uint16_t highestColor = 1;
 
 	// Color each vertex.
 	for (int i = 0; i < sortedVertices.size(); i++)
-		colorVertex(colors, highestColor, sortedVertices.at(i));
+		colorVertex(highestColor, sortedVertices.at(i));
 
 	// Verify the coloring, if necessary.
-	if (verify && !Colorer::verify(colors))
+	if (verify && !Colorer::verify())
 		return -1;
 
-	return highestColor + 1;
+	return highestColor;
 }

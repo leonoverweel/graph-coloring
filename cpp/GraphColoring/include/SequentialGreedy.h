@@ -13,7 +13,7 @@ private:
 	*	@param highest the highest color used so far
 	*	@param vertexId the id of the vertex to color
 	*/
-	void colorVertex(ColorMap& colors, uint16_t& highest, uint64_t vertexId);
+	void colorVertex(Graph::Color &highest, Graph::Vertex vertex);
 
 public:
 

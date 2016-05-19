@@ -107,6 +107,11 @@ Graph::Color Graph::getColor(Vertex vertex)
 	return adjacencyList.at(vertex).first;
 }
 
+void Graph::setColor(Vertex vertex, Color color)
+{
+	adjacencyList.at(vertex).first = color;
+}
+
 // Get the ids of a vertex's neighbors.
 Graph::VertexVector Graph::getNeighbors(Vertex vertex)
 {

@@ -30,6 +30,14 @@ public:
 	Color getColor(Vertex vertex);
 
 	/**
+	*	Set the color of the vertex with the specified id.
+	*
+	*	@param vertex the id of the vertex whose color to set
+	*	@param color the color to set for the vertex with the specified id
+	*/
+	void setColor(Vertex vertex, Color color);
+
+	/**
 	*	Get the ids of a vertex's neighbors.
 	*
 	*	@param vertex id of the vertex whose neighbors to get

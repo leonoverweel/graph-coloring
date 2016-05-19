@@ -13,18 +13,24 @@ int Colorer::color(bool ascending, bool miscParam)
 }
 
 // Greedily color one vertex
-uint16_t Colorer::lowestAllowedColor(Graph::VertexVector &neighborIds, ColorMap &colors)
+uint16_t Colorer::lowestAllowedColor(Graph::VertexVector &neighbors)
 {
-	std::set<Graph::Color> neighborColors = std::set<Graph::Color>();
 
-	for (Graph::Vertex neighborId : neighborIds)
+	// Find the vertex's neighbor's colors
+
+	std::set<Graph::Color> neighborColors = std::set<Graph::Color>();
+	Graph::Color neighborColor; 
+
+	for (Graph::Vertex neighbor : neighbors)
 	{
-		auto search = colors.find(neighborId);
-		if (search == colors.end())	continue;
-		neighborColors.insert(search->second);
+		neighborColor = graph.getColor(neighbor);
+		if (neighborColor != 0)
+			neighborColors.insert(neighborColor);
 	}
 
-	Graph::Color last = 0;
+	// Pick the lowest color not in the neighbor's colors
+
+	Graph::Color last = 1;
 	for (Graph::Color color : neighborColors)
 	{
 		if (color == last) last++;
@@ -35,18 +41,24 @@ uint16_t Colorer::lowestAllowedColor(Graph::VertexVector &neighborIds, ColorMap 
 }
 
 // Verify that this is a correct coloring for the graph.
-bool Colorer::verify(ColorMap colors)
+bool Colorer::verify()
 {
 	for (auto vertex : sortedVertices)
 	{
-		Graph::VertexVector neighbors = graph.getNeighbors(vertex);
-		Graph::Color vertexColor = colors.find(vertex)->second;
 
+		// Make sure the vertex is colored.
+
+		Graph::Color vertexColor = graph.getColor(vertex);
+		if (vertexColor == 0)
+			return false;
+
+		// Make sure none of the vertex's neighbors have the same color.
+
+		Graph::VertexVector neighbors = graph.getNeighbors(vertex);
 		for (auto neighbor : neighbors)
 		{
-			Graph::Color neighborColor = colors.find(neighbor)->second;
-			
-			if (vertexColor == neighborColor)
+			Graph::Color neighborColor = graph.getColor(neighbor);
+			if (vertexColor == neighborColor) 
 				return false;
 		}
 	}

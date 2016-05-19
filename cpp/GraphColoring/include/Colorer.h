@@ -19,8 +19,7 @@ public:
 	virtual int color(bool verify, bool miscParam);
 
 protected:
-	typedef std::unordered_map<Graph::Vertex, Graph::Color> ColorMap;
-
+	
 	Graph& graph;
 	Graph::VertexVector& sortedVertices;
 
@@ -36,17 +35,15 @@ protected:
 	*	Greedily find the lowest allowed color a vertex, by trying increasing colors until one is allowed.
 	*
 	*	@param neighborIds vector of the ids of the neighbors of the vertex to be colored
-	*	@param colors unordered map from vertex ids to their color
 	*	@return a color for the vertex
 	*/
-	Graph::Color lowestAllowedColor(Graph::VertexVector &neighbors, ColorMap &colors);
+	Graph::Color lowestAllowedColor(Graph::VertexVector &neighbors);
 
 	/**
 	*	Check to see if a valid coloring was performed.
 	*
-	*	@param colors the map from Graph::Vertex to Graph::Color of colors assigned to vertices
 	*	@return true if this is a valid coloring for the graph
 	*/
-	bool verify(ColorMap colors);
+	bool verify();
 
 };
