@@ -21,12 +21,14 @@
   <ItemGroup>
     <ClCompile Include="source\Colorer.cpp" />
     <ClCompile Include="source\Graph.cpp" />
+    <ClCompile Include="source\LubyJonesGreedy.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\SequentialGreedy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Colorer.h" />
     <ClInclude Include="include\Graph.h" />
+    <ClInclude Include="include\LubyJonesGreedy.h" />
     <ClInclude Include="include\SequentialGreedy.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -99,6 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

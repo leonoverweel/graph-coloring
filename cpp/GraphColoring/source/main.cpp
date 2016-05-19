@@ -1,7 +1,5 @@
-//#include "../include/FileReader.h"
 #include "../include/Graph.h"
-
-//#include "../include/LubyJonesGreedy.h"
+#include "../include/LubyJonesGreedy.h"
 #include "../include/SequentialGreedy.h"
 
 #include <iostream>
@@ -23,13 +21,13 @@ int main() {
 	
 	// Graph location
 	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
-	std::string path = base + "Testing/reactome/out.reactome";
+	std::string path = base + "Testing/arenas-jazz/out.arenas-jazz";
 
 	// Coloring parameters
 	bool sortByDegree = true;
 	bool sortAscending = false;
-	bool verify = false;
-	int algorithm = SEQUENTIAL_GREEDY;
+	bool verify = true;
+	int algorithm = LUBY_JONES_GREEDY;
 
 	// Read file
 	std::cout << "Reading file ... ";
@@ -54,15 +52,15 @@ int main() {
 		colors = colorer->color(verify, false);
 		break;
 
-	/*case LUBY_JONES_GREEDY:
-		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
-		colors = colorer->color(iterateAscending, false);
+	case LUBY_JONES_GREEDY:
+		colorer = &LubyJonesGreedy(graph, sortedVertices);
+		colors = colorer->color(verify, false);
 		break;
 
 	case MIN_MAX_GREEDY:
-		colorer = &LubyJonesGreedy(adjacencyList, sortedVertices);
-		colors = colorer->color(iterateAscending, true);
-		break;*/
+		colorer = &LubyJonesGreedy(graph, sortedVertices);
+		colors = colorer->color(verify, true);
+		break;
 
 	}
 
