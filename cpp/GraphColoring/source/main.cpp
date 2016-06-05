@@ -11,6 +11,9 @@
 #define LUBY_JONES_GREEDY	1
 #define MIN_MAX_GREEDY		2
 
+#define FALSE				0
+#define TRUE				1
+
 int main() {
 
 	typedef std::chrono::high_resolution_clock Clock;
@@ -41,6 +44,7 @@ int main() {
 	std::cout << std::chrono::duration_cast<ms>(finish - start).count() / 1000.0 << " sec" << std::endl;
 
 	Graph::VertexVector sortedVertices = graph.getSortedVertices();
+	std::vector<uint16_t> params = std::vector<uint16_t>();
 	
 	// Color graph
 	std::cout << "Coloring graph ... ";
@@ -51,17 +55,20 @@ int main() {
 
 	case SEQUENTIAL_GREEDY:
 		colorer = &SequentialGreedy(graph, sortedVertices);
-		colors = colorer->color(verify, false);
+		params.push_back(FALSE);
+		colors = colorer->color(verify, params);
 		break;
 
 	case LUBY_JONES_GREEDY:
 		colorer = &LubyJonesGreedy(graph, sortedVertices);
-		colors = colorer->color(verify, false);
+		params.push_back(FALSE);
+		colors = colorer->color(verify, params);
 		break;
 
 	case MIN_MAX_GREEDY:
 		colorer = &LubyJonesGreedy(graph, sortedVertices);
-		colors = colorer->color(verify, true);
+		params.push_back(TRUE);
+		colors = colorer->color(verify, params);
 		break;
 
 	}
