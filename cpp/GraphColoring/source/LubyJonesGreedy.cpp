@@ -7,7 +7,7 @@ LubyJonesGreedy::LubyJonesGreedy(Graph &graph, Graph::VertexVector &sortedVertic
 	: Colorer(graph, sortedVertices) { }
 
 // Color the graph.
-int LubyJonesGreedy::color(bool verify, bool minMax)
+int LubyJonesGreedy::color(bool verify, std::vector<uint16_t> minMax)
 {
 	// Return 0 for empty graph.
 	if (sortedVertices.size() == 0)

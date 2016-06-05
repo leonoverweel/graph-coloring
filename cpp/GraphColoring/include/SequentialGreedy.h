@@ -32,6 +32,6 @@ public:
 	*	@param miscParam not used for sequential greedy
 	*	@return the number of colors used to color the graph
 	*/
-	int color(bool verify, bool miscParam) override;
+	int color(bool verify, std::vector<uint16_t> miscParam) override;
 
 };

@@ -21,6 +21,6 @@ public:
 	*	@param minMax whether the min-max variation of Luby Jones should be used
 	*	@return the number of colors used to color the graph (or -1 if unsuccessful)
 	*/
-	int color(bool verify, bool minMax) override;
+	int color(bool verify, std::vector<uint16_t> minMax) override;
 
 };

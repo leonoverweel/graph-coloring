@@ -16,7 +16,7 @@ public:
 	*	@param miscParam parameter different algorithms can use to vary their behavior
 	*	@return the number of colors used to color the graph
 	*/
-	virtual int color(bool verify, bool miscParam);
+	virtual int color(bool verify, std::vector<uint16_t> miscParams);
 
 protected:
 	

@@ -8,7 +8,7 @@ Colorer::Colorer(Graph &graph, Graph::VertexVector &sortedVertices)
 	:graph(graph), sortedVertices(sortedVertices) { }
 
 // Default color function returns -1 if not implemented by child class.
-int Colorer::color(bool ascending, bool miscParam) 
+int Colorer::color(bool ascending, std::vector<uint16_t> miscParam) 
 { 
 	return -1; 
 }

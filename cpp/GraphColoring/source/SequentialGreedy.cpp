@@ -18,7 +18,7 @@ void SequentialGreedy::colorVertex(Graph::Color &highest, Graph::Vertex vertex)
 }
 
 // Greedily color all vertices.
-int SequentialGreedy::color(bool verify, bool miscParam)
+int SequentialGreedy::color(bool verify, std::vector<uint16_t> miscParam)
 {
 	uint16_t highestColor = 1;
 
