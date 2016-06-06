@@ -1,4 +1,5 @@
 #include "../include/Graph.h"
+#include "../include/LubyJones.h"
 #include "../include/LubyJonesGreedy.h"
 #include "../include/SequentialGreedy.h"
 
@@ -10,9 +11,11 @@
 #define SEQUENTIAL_GREEDY	0
 #define LUBY_JONES_GREEDY	1
 #define MIN_MAX_GREEDY		2
+#define LUBY_JONES_MIS		3
 
 #define FALSE				0
 #define TRUE				1
+#define ALL					0
 
 int main() {
 
@@ -25,13 +28,15 @@ int main() {
 	
 	// Graph location
 	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
-	std::string path = base + "Testing/reactome/out.reactome";
+	std::string path = base + "tiny/out.tiny3";
 
 	// Coloring parameters
 	bool sortByDegree = true;
 	bool sortAscending = false;
 	bool verify = true;
-	int algorithm = LUBY_JONES_GREEDY;
+	uint16_t lubyJonesMISrandom = FALSE;
+	uint16_t lubyJonesMISiterations = 1;
+	int algorithm = LUBY_JONES_MIS;
 	omp_set_num_threads(4);
 
 	// Read file
@@ -68,6 +73,13 @@ int main() {
 	case MIN_MAX_GREEDY:
 		colorer = &LubyJonesGreedy(graph, sortedVertices);
 		params.push_back(TRUE);
+		colors = colorer->color(verify, params);
+		break;
+
+	case LUBY_JONES_MIS:
+		colorer = &LubyJones(graph, sortedVertices);
+		params.push_back(lubyJonesMISrandom);
+		params.push_back(lubyJonesMISiterations);
 		colors = colorer->color(verify, params);
 		break;
 
