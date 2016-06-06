@@ -42,20 +42,7 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 	{
 		// to do
 	}
-
-	std::cout << "Vertex numbers:\n";
-	for (Graph::Vertex vertex : sortedVertices)
-	{
-		std::cout << vertex << " (";
-		
-		for (Graph::Vertex neighbor : graph.getNeighbors(vertex))
-			std::cout << neighbor << ",";
-
-		std::cout << ") : " << vertexNumbers.at(vertex) << std::endl;
-	}
-		
-	std::cout << std::endl;
-
+	
 	// Color.
 	uint64_t colored = 0;
 	uint64_t toColor = sortedVertices.size();
@@ -66,7 +53,6 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 	{
 		// Round number serves as color for this round (increment first to start at color 1).
 		round++;
-		std::cout << "Round: " << round << "; ";
 		
 		// Maximal Independent Set algorithm parameters.
 		Graph::VertexVector indepentSet = Graph::VertexVector();
@@ -144,15 +130,13 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 			iteration++;
 		}
 
-		std::cout << "Independent set: ";
 		// Color independent set
 		for (Graph::Vertex vertex : indepentSet)
 		{
 			graph.setColor(vertex, round);
 			colored++;
-			std::cout << vertex << ", ";
 		}
-		std::cout << std::endl;
+
 	}
 	
 	// Verify and return.

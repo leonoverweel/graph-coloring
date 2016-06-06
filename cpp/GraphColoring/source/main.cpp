@@ -28,14 +28,14 @@ int main() {
 	
 	// Graph location
 	std::string base = "../../../../OneDrive/Documents/TU Delft/Research/Graphs/";
-	std::string path = base + "tiny/out.tiny3";
+	std::string path = base + "Testing/arenas-jazz/out.arenas-jazz";
 
 	// Coloring parameters
 	bool sortByDegree = true;
 	bool sortAscending = false;
 	bool verify = true;
 	uint16_t lubyJonesMISrandom = FALSE;
-	uint16_t lubyJonesMISiterations = 1;
+	uint16_t lubyJonesMISiterations = ALL;
 	int algorithm = LUBY_JONES_MIS;
 	omp_set_num_threads(4);
 
