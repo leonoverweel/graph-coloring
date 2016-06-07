@@ -55,32 +55,32 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 		round++;
 		
 		// Maximal Independent Set algorithm parameters.
-		Graph::VertexVector indepentSet = Graph::VertexVector();
+		Graph::VertexVector independentSet = Graph::VertexVector();
 		uint64_t known = 0;
 		uint64_t toKnow = 0;
 		uint16_t iteration = 0;
 
 		// Vertices to find MIS in this round.
 		std::vector<uint16_t> vertices = std::vector<uint16_t>(sortedVertices.size());
-		for (Graph::Vertex i : sortedVertices)
+
+		#pragma omp parallel for reduction(+:toKnow)
+		for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
 		{
-			if (graph.getColor(i) == 0)
+			if (graph.getColor(vertex) == 0)
 			{
-				vertices.at(i) = UNKNOWN;
+				vertices.at(vertex) = UNKNOWN;
 				toKnow++;
-			}
-			else
-			{
-				vertices.at(i) = SKIP;
 			}
 		}
 		
 		// MIS main loop.
 		while (known < toKnow && (iteration < MISiteratios || MISiteratios == ALL))
 		{
-
+			
 			// Choose independent set in remaining vertices.
-			for (uint64_t vertex = 0; vertex < vertices.size(); vertex++)
+			uint64_t knownShared = 0;
+
+			for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
 			{
 				
 				// Skip if already colored.
@@ -92,7 +92,7 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 				Graph::VertexVector neighbors = graph.getNeighbors(vertex);
 				bool localMax = true;
 
-				for (Graph::Vertex neighbor : neighbors)
+				for (int64_t neighbor = 0; neighbor < neighbors.size(); neighbor++)
 				{
 					Graph::Color neighborColor = graph.getColor(neighbor);
 					if (vertexNumbers.at(neighbor) > vertexNumber && vertices.at(neighbor) != SKIP)
@@ -106,19 +106,19 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 				if (localMax)
 				{
 					vertices.at(vertex) = LOCAL_MAX;
-					known++;
+					knownShared++;
 
 					for (Graph::Vertex neighbor : neighbors)
 					{
 						if (vertices.at(neighbor) != NOT_LOCAL_MAX && vertices.at(neighbor) != SKIP)
 						{
 							vertices.at(neighbor) = NOT_LOCAL_MAX;
-							known++;
+							knownShared++;
 						}
 					}
 
 					// Also add vertex to current round independent set.
-					indepentSet.push_back(vertex);
+					independentSet.push_back(vertex);
 				}
 			}
 
@@ -127,11 +127,12 @@ int LubyJones::color(bool verify, std::vector<uint16_t> params)
 				if (vertices.at(vertex) == LOCAL_MAX || vertices.at(vertex) == NOT_LOCAL_MAX)
 					vertices.at(vertex) = SKIP;
 
+			known += knownShared;
 			iteration++;
 		}
 
 		// Color independent set
-		for (Graph::Vertex vertex : indepentSet)
+		for (Graph::Vertex vertex : independentSet)
 		{
 			graph.setColor(vertex, round);
 			colored++;
