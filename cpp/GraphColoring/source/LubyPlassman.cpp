@@ -1,4 +1,4 @@
-#include "..\include\LubyJones.h"
+#include "..\include\LubyPlassman.h"
 
 #include <iostream>
 
@@ -12,11 +12,11 @@
 #define NOT_LOCAL_MAX		3
 
 // Constructor
-LubyJones::LubyJones(Graph &graph, Graph::VertexVector &sortedVertices)
+LubyPlassman::LubyPlassman(Graph &graph, Graph::VertexVector &sortedVertices)
 	: Colorer(graph, sortedVertices) { }
 
 // Color the graph.
-int LubyJones::color(bool verify, std::vector<uint16_t> params)
+int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 {
 	// Grab parameters.
 	uint16_t randomNumbers = params.at(0);

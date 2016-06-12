@@ -2,7 +2,7 @@
 
 #include "Colorer.h"
 
-class LubyJones : public Colorer {
+class LubyPlassman : public Colorer {
 
 public:
 
@@ -12,7 +12,7 @@ public:
 	*	@param graph the graph to color
 	*	@param sortedVertices sorted set of the vertices in the graph
 	*/
-	LubyJones(Graph &graph, Graph::VertexVector &sortedVertices);
+	LubyPlassman(Graph &graph, Graph::VertexVector &sortedVertices);
 
 	/**
 	*	Color a graph using the Luby Jones greedy algorithm.

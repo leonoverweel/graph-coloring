@@ -36,7 +36,7 @@
     <ClCompile Include="source\LubyJonesGreedy.cpp">
       <Filter>Source Files\Coloring</Filter>
     </ClCompile>
-    <ClCompile Include="source\LubyJones.cpp">
+    <ClCompile Include="source\LubyPlassman.cpp">
       <Filter>Source Files\Coloring</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="include\LubyJonesGreedy.h">
       <Filter>Header Files\Coloring</Filter>
     </ClInclude>
-    <ClInclude Include="include\LubyJones.h">
+    <ClInclude Include="include\LubyPlassman.h">
       <Filter>Header Files\Coloring</Filter>
     </ClInclude>
   </ItemGroup>

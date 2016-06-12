@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="source\Colorer.cpp" />
     <ClCompile Include="source\Graph.cpp" />
-    <ClCompile Include="source\LubyJones.cpp" />
+    <ClCompile Include="source\LubyPlassman.cpp" />
     <ClCompile Include="source\LubyJonesGreedy.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\SequentialGreedy.cpp" />
@@ -29,7 +29,7 @@
   <ItemGroup>
     <ClInclude Include="include\Colorer.h" />
     <ClInclude Include="include\Graph.h" />
-    <ClInclude Include="include\LubyJones.h" />
+    <ClInclude Include="include\LubyPlassman.h" />
     <ClInclude Include="include\LubyJonesGreedy.h" />
     <ClInclude Include="include\SequentialGreedy.h" />
   </ItemGroup>

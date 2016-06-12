@@ -1,5 +1,5 @@
 #include "../include/Graph.h"
-#include "../include/LubyJones.h"
+#include "../include/LubyPlassman.h"
 #include "../include/LubyJonesGreedy.h"
 #include "../include/SequentialGreedy.h"
 
@@ -11,7 +11,7 @@
 #define SEQUENTIAL_GREEDY	0
 #define LUBY_JONES_GREEDY	1
 #define MIN_MAX_GREEDY		2
-#define LUBY_JONES_MIS		3
+#define LUBY_PLASSMAN		3
 
 #define FALSE				0
 #define TRUE				1
@@ -36,7 +36,7 @@ int main() {
 	bool verify = true;
 	uint16_t lubyJonesMISrandom = FALSE;
 	uint16_t lubyJonesMISiterations = ALL;
-	int algorithm = LUBY_JONES_MIS;
+	int algorithm = LUBY_PLASSMAN;
 	omp_set_num_threads(4);
 
 	// Read file
@@ -76,8 +76,8 @@ int main() {
 		colors = colorer->color(verify, params);
 		break;
 
-	case LUBY_JONES_MIS:
-		colorer = &LubyJones(graph, sortedVertices);
+	case LUBY_PLASSMAN:
+		colorer = &LubyPlassman(graph, sortedVertices);
 		params.push_back(lubyJonesMISrandom);
 		params.push_back(lubyJonesMISiterations);
 		colors = colorer->color(verify, params);
