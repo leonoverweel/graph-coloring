@@ -73,18 +73,16 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 			}
 		}
 		
-		// MIS main loop.
+		// Maximum Independent Set (MIS) main loop.
 		while (known < toKnow && (iteration < MISiteratios || MISiteratios == ALL))
 		{
 			
-			// Choose independent set in remaining vertices.
-			uint64_t knownShared = 0;
-
+			// Find local maxima and mark them LOCAL_MAXIMUM.
 			for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
 			{
 				
 				// Skip if already colored.
-				if (vertices.at(vertex) == SKIP || vertices.at(vertex) == NOT_LOCAL_MAX)
+				if (vertices.at(vertex) == SKIP)
 					continue;
 
 				// Check if vertex is local max.
@@ -92,9 +90,8 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 				Graph::VertexVector neighbors = graph.getNeighbors(vertex);
 				bool localMax = true;
 
-				for (int64_t neighbor = 0; neighbor < neighbors.size(); neighbor++)
+				for (Graph::Vertex neighbor : neighbors)
 				{
-					Graph::Color neighborColor = graph.getColor(neighbor);
 					if (vertexNumbers.at(neighbor) > vertexNumber && vertices.at(neighbor) != SKIP)
 					{
 						localMax = false;
@@ -102,32 +99,42 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 					}
 				}
 
-				// If local max, mark vertex as LOCAL_MAX and neighbors as NOT_LOCAL_MAX.
+				// If local max, mark vertex as LOCAL_MAX and add vertex to current round independent set.
 				if (localMax)
 				{
-					vertices.at(vertex) = LOCAL_MAX;
-					knownShared++;
-
-					for (Graph::Vertex neighbor : neighbors)
-					{
-						if (vertices.at(neighbor) != NOT_LOCAL_MAX && vertices.at(neighbor) != SKIP)
-						{
-							vertices.at(neighbor) = NOT_LOCAL_MAX;
-							knownShared++;
-						}
-					}
-
-					// Also add vertex to current round independent set.
+					vertices.at(vertex) = LOCAL_MAX; 
 					independentSet.push_back(vertex);
+
+					known++;
+				}
+
+			}
+
+			// Find the neighbors of local maxima and mark them NOT_LOCAL_MAX.
+			for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
+			{
+				Graph::VertexVector neighbors = graph.getNeighbors(vertex);
+				
+				for (Graph::Vertex neighbor : neighbors)
+				{
+					if (vertices.at(neighbor) == LOCAL_MAX)
+					{
+						vertices.at(vertex) = NOT_LOCAL_MAX;
+						known++;
+						break;
+					}
 				}
 			}
 
-			// Mark current LOCAL_MAX and NOT_LOCAL_MAX as skippable for next MIS iteration.
+			// Mark current LOCAL_MAX and NOT_LOCAL_MAX as SKIP for next MIS iteration.
 			for (Graph::Vertex vertex = 0; vertex < vertices.size(); vertex++)
+			{
 				if (vertices.at(vertex) == LOCAL_MAX || vertices.at(vertex) == NOT_LOCAL_MAX)
+				{
 					vertices.at(vertex) = SKIP;
-
-			known += knownShared;
+				}					
+			}
+				
 			iteration++;
 		}
 
@@ -135,8 +142,9 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 		for (Graph::Vertex vertex : independentSet)
 		{
 			graph.setColor(vertex, round);
-			colored++;
 		}
+			
+		colored += independentSet.size();
 
 	}
 	
