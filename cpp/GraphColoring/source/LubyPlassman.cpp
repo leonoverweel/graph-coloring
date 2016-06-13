@@ -54,15 +54,20 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 		// Round number serves as color for this round (increment first to start at color 1).
 		round++;
 		
-		// Maximal Independent Set algorithm parameters.
-		Graph::VertexVector independentSet = Graph::VertexVector();
-		uint64_t known = 0;
-		uint64_t toKnow = 0;
-		uint16_t iteration = 0;
-
-		// Vertices to find MIS in this round.
+		// Holds the vertex status (SKIP, UNKNOWN, LOCAL_MAX or NOT_LOCAL_MAX).
 		std::vector<uint16_t> vertices = std::vector<uint16_t>(sortedVertices.size());
 
+		// Keeps track of how many vertices still need to be marked as LOCAL_MAX or NOT_LOCAL_MAX this round.
+		uint64_t known = 0;
+		uint64_t toKnow = 0;
+
+		// Keeps track of the MIS iteration.
+		uint16_t iteration = 0;
+
+		// The independent set for this round.
+		Graph::VertexVector independentSet = Graph::VertexVector();
+
+		// Vertices to find MIS in this round.
 		#pragma omp parallel for reduction(+:toKnow)
 		for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
 		{
@@ -78,6 +83,7 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 		{
 			
 			// Find local maxima and mark them LOCAL_MAXIMUM.
+			#pragma omp parallel for reduction(+:known)
 			for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
 			{
 				
@@ -103,14 +109,22 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 				if (localMax)
 				{
 					vertices.at(vertex) = LOCAL_MAX; 
-					independentSet.push_back(vertex);
-
 					known++;
 				}
 
 			}
 
+			// Add LOCAL MAX vertices to the independent set.
+			for (int64_t vertex = 0; vertex < vertices.size(); vertex++)
+			{
+				if (vertices.at(vertex) == LOCAL_MAX)
+				{
+					independentSet.push_back(vertex);
+				}
+			}
+
 			// Find the neighbors of local maxima and mark them NOT_LOCAL_MAX.
+			#pragma omp parallel for reduction(+:known)
 			for (int64_t vertex = 0; vertex < sortedVertices.size(); vertex++)
 			{
 				Graph::VertexVector neighbors = graph.getNeighbors(vertex);
@@ -127,7 +141,8 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 			}
 
 			// Mark current LOCAL_MAX and NOT_LOCAL_MAX as SKIP for next MIS iteration.
-			for (Graph::Vertex vertex = 0; vertex < vertices.size(); vertex++)
+			#pragma omp parallel for
+			for (int64_t vertex = 0; vertex < vertices.size(); vertex++)
 			{
 				if (vertices.at(vertex) == LOCAL_MAX || vertices.at(vertex) == NOT_LOCAL_MAX)
 				{
