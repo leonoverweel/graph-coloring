@@ -2,14 +2,15 @@
 
 #include <iostream>
 
-#define FALSE				0
-#define TRUE				1
-#define ALL					0
+const int FALSE = 0;
+const int TRUE = 1;
 
-#define SKIP				0
-#define UNKNOWN				1
-#define LOCAL_MAX			2
-#define NOT_LOCAL_MAX		3
+const int ALL = 0;
+
+const int SKIP = 0;
+const int UNKNOWN = 1;
+const int LOCAL_MAX = 2;
+const int NOT_LOCAL_MAX = 3;
 
 // Constructor
 LubyPlassman::LubyPlassman(Graph &graph, Graph::VertexVector &sortedVertices)

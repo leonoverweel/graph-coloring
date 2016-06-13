@@ -8,14 +8,14 @@
 #include <chrono>
 #include <omp.h>
 
-#define SEQUENTIAL_GREEDY	0
-#define LUBY_JONES_GREEDY	1
-#define MIN_MAX_GREEDY		2
-#define LUBY_PLASSMAN		3
+const int SEQUENTIAL_GREEDY	= 0;
+const int LUBY_JONES_GREEDY = 1;
+const int LUBY_PLASSMAN	= 2;
 
-#define FALSE				0
-#define TRUE				1
-#define ALL					0
+const int FALSE = 0;
+const int TRUE = 1;
+
+const int ALL = 0;
 
 int main() {
 
@@ -67,12 +67,6 @@ int main() {
 	case LUBY_JONES_GREEDY:
 		colorer = &LubyJonesGreedy(graph, sortedVertices);
 		params.push_back(FALSE);
-		colors = colorer->color(verify, params);
-		break;
-
-	case MIN_MAX_GREEDY:
-		colorer = &LubyJonesGreedy(graph, sortedVertices);
-		params.push_back(TRUE);
 		colors = colorer->color(verify, params);
 		break;
 
