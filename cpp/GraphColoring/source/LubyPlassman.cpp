@@ -155,9 +155,11 @@ int LubyPlassman::color(bool verify, std::vector<uint16_t> params)
 		}
 
 		// Color independent set
-		for (Graph::Vertex vertex : independentSet)
+
+		#pragma omp parallel for
+		for (int64_t i = 0; i < independentSet.size(); i++)
 		{
-			graph.setColor(vertex, round);
+			graph.setColor(independentSet.at(i), round);
 		}
 			
 		colored += independentSet.size();
