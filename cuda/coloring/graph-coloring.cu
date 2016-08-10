@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 
+bool verbose = true;
+
 std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 {
 	std::vector<std::vector<uint64_t>> graph;
@@ -28,7 +30,7 @@ std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 	{
 		if (line[0] == '%') 
 		{
-			std::cout << "Skipped" << std::endl;
+			if (verbose) std::cout << "\tSkipped" << std::endl;
 			continue;
 		}
 
@@ -39,14 +41,14 @@ std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 		if (search == vertexIdMap.end())
 		{
 			vertexIdMap.insert(std::make_pair(a, highestId++));
-			std::cout << "Map " << a << " to " << highestId << std::endl;
+			if (verbose) std::cout << "\tMap " << a << " to " << highestId << std::endl;
 		}
 		
 		search = vertexIdMap.find(b);
 		if (search == vertexIdMap.end())
 		{
 			vertexIdMap.insert(std::make_pair(b, highestId++));
-			std::cout << "Map " << b << " to " << highestId << std::endl;
+			if (verbose) std::cout << "\tMap " << b << " to " << highestId << std::endl;
 		}
 	}
 
@@ -64,8 +66,10 @@ int main (int argc, char *argv[])
 	}
 
 	// Read the graph
+	if (verbose) std::cout << "Reading graph...\n";
 	std::string path(argv[1]);
 	std::vector<std::vector<uint64_t>> lines = readGraph(path);
+	if (verbose) std::cout << "Done\n";
 
 	return 0;
 }
