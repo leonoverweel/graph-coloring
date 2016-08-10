@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 
 bool verbose = true;
 
@@ -38,15 +39,17 @@ std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 		auto search = vertexIdMap.find(a);
 		if (search == vertexIdMap.end())
 		{
-			vertexIdMap.insert(std::make_pair(a, highestId++));
+			vertexIdMap.insert(std::make_pair(a, highestId));
 			if (verbose) std::cout << "\t\tMap " << a << " to " << highestId << std::endl;
+			highestId++;
 		}
 		
 		search = vertexIdMap.find(b);
 		if (search == vertexIdMap.end())
 		{
-			vertexIdMap.insert(std::make_pair(b, highestId++));
+			vertexIdMap.insert(std::make_pair(b, highestId));
 			if (verbose) std::cout << "\t\tMap " << b << " to " << highestId << std::endl;
+			highestId++;
 		}
 	}
 
@@ -86,6 +89,33 @@ std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 	}
 
 	if (verbose) std::cout << "\tDone\n";
+
+	// Sort neighbor lists and remove duplicates
+	if (verbose) std::cout << "\tSorting neighbor lists and removing duplicates... ";
+
+	for (int i = 0; i < graph.size(); i++)
+	{
+		std::vector<uint64_t> * neighborList = &graph[i];
+		std::set<uint64_t> set(neighborList->begin(), neighborList->end());
+		neighborList->assign(set.begin(), set.end());	
+	}
+
+	if (verbose) std::cout << "Done\n";
+
+	// Print the final adjacency list
+	if (verbose)
+	{
+		std::cout << "\tFinal adjacency list:\n";
+		for(int i = 0; i < graph.size(); i++)
+		{
+			std::cout << "\t\t" << i << ": ";
+			for(uint64_t neighbor : graph.at(i))
+			{
+				std::cout << neighbor << ", ";
+			}
+			std::cout << "\b\b \n";
+		}
+	}
 
 	return graph;
 }
