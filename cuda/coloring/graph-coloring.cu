@@ -8,6 +8,7 @@
 
 bool verbose = true;
 
+// Read a graph from a file
 std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 {
 	// Open the file and make sure it exists
@@ -120,6 +121,37 @@ std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 	return graph;
 }
 
+// Flatten a graph into a single data vector with pointers to where each vertex's neighbor list starts and ends. Returns size in bytes.
+uint64_t flatten (std::vector<std::vector<uint64_t>> * graph, std::vector<uint64_t> * data, std::vector<uint64_t> * indices)
+{
+	indices->push_back(0);
+
+	for (int i = 0; i < graph->size(); i++)
+	{
+		data->insert(data->end(), (*graph)[i].begin(), (*graph)[i].end());
+		indices->push_back(data->size());
+	}
+
+	if (verbose) std::cout << "\tLength of data: " << data->size() << std::endl;
+	if (verbose) std::cout << "\tSize in bytes: " << data->size() * sizeof(uint64_t) << std::endl;
+
+	if (verbose)
+	{
+		std::cout << "\tAdjacency list from flattened data:\n";
+		for(int i = 0; i < indices->size() - 1; i++)
+		{
+			std::cout << "\t\t" << i << ": ";
+			for(uint64_t j = (*indices)[i]; j < (*indices)[i+1]; j++) 
+		{
+				std::cout << (*data)[j] << ", ";
+			}
+			std::cout << "\b\b \n";
+		}
+	}
+
+	return data->size() * sizeof(uint64_t);
+}
+
 int main (int argc, char *argv[])
 {
 
@@ -132,9 +164,20 @@ int main (int argc, char *argv[])
 
 	// Read the graph
 	if (verbose) std::cout << "Reading graph...\n";
+
 	std::string path(argv[1]);
-	std::vector<std::vector<uint64_t>> lines = readGraph(path);
+	std::vector<std::vector<uint64_t>> graph = readGraph(path);
+
 	if (verbose) std::cout << "Done\n";
 
+	// Flatten the graph
+	if (verbose) std::cout << "Flattening the graph...\n";
+	
+	std::vector<uint64_t> * data = new std::vector<uint64_t>();
+	std::vector<uint64_t> * indices = new std::vector<uint64_t>();
+
+	flatten(&graph, data, indices);
+	
+	if (verbose) std::cout << "Done\n";
 	return 0;
 }
