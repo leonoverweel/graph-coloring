@@ -122,7 +122,7 @@ std::vector<std::vector<uint64_t>> readGraph (const std::string& path)
 }
 
 // Flatten a graph into a single data vector with pointers to where each vertex's neighbor list starts and ends. Returns size in bytes.
-uint64_t flatten (std::vector<std::vector<uint64_t>> * graph, std::vector<uint64_t> * data, std::vector<uint64_t> * indices)
+int flatten (std::vector<std::vector<uint64_t>> * graph, std::vector<uint64_t> * data, std::vector<uint64_t> * indices)
 {
 	indices->push_back(0);
 
@@ -176,8 +176,24 @@ int main (int argc, char *argv[])
 	std::vector<uint64_t> * data = new std::vector<uint64_t>();
 	std::vector<uint64_t> * indices = new std::vector<uint64_t>();
 
-	flatten(&graph, data, indices);
-	
+	int dataSize = flatten(&graph, data, indices);
+	int indicesSize = indices->size() * sizeof(uint64_t);
+
 	if (verbose) std::cout << "Done\n";
+
+	// Send graph to device
+	if (verbose) std::cout << "Sending graph to device...";
+	
+	uint64_t * deviceDataPointer;
+	uint64_t * deviceIndicesPointer;
+
+	cudaMalloc((void**)&deviceDataPointer, dataSize);
+	cudaMalloc((void**)&deviceIndicesPointer, indicesSize);
+
+	cudaMemcpy(deviceDataPointer, data, dataSize, cudaMemcpyHostToDevice);
+	cudaMemcpy(deviceIndicesPointer, indices, indicesSize, cudaMemcpyHostToDevice);
+
+	if (verbose) std::cout << "Done\n";
+
 	return 0;
 }
