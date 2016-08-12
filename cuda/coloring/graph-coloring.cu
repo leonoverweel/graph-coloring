@@ -5,6 +5,10 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include <random>
+#include <algorithm>
+#include <iterator>
+#include <functional>
 
 bool verbose = true;
 
@@ -167,6 +171,28 @@ int main (int argc, char *argv[])
 
 	std::string path(argv[1]);
 	std::vector<std::vector<uint64_t>> graph = readGraph(path);
+
+	if (verbose) std::cout << "Done\n";
+	
+	// Generate the random numbers
+	if (verbose) std::cout << "Generating random numbers...\n";
+
+	std::random_device rnd_device;
+	std::mt19937 mersenne_engine(rnd_device());
+	std::uniform_int_distribution<int> dist(INT_MIN, INT_MAX);
+	auto gen = std::bind(dist, mersenne_engine);
+
+	std::vector<int> random(graph.size());
+
+	std::generate(begin(random), end(random), gen);
+
+	if (verbose)
+	{
+		for (int i = 0; i < graph.size(); i++)
+		{
+			std::cout << "\t" << i << ": " << random.at(i) << std::endl;
+		}
+	}
 
 	if (verbose) std::cout << "Done\n";
 
