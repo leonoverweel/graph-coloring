@@ -2,23 +2,23 @@
 #include <vector>
 
 bool verbose = true;
-bool SIZE = 10;
+int SIZE = 10;
 
 __global__
 void assign_state(uint8_t * states)
 {
-	//states[threadIdx.x] = 2;
+	states[threadIdx.x] = 42;
 }
 
 int main (int argc, char *argv[])
 {
 
-    // Create host states vector
+	// Create host states vector
 	if (verbose) std::cout << "Creating host memory... ";
 
 	std::vector<uint8_t> * states = new std::vector<uint8_t>(SIZE);
 	int statesSize = states->size() * sizeof(uint8_t);
-
+	
 	if (verbose) std::cout << "Done\n";
 
 	// Send data to device
@@ -35,7 +35,7 @@ int main (int argc, char *argv[])
 
 	dim3 dimBlock(SIZE, 1);
 	dim3 dimGrid(1, 1);
-	check_if_local_max<<<dimGrid, dimBlock>>>(deviceStatesPointer);
+	assign_state<<<dimGrid, dimBlock>>>(deviceStatesPointer);
 
 	if (verbose) std::cout << "Done\n";
 
