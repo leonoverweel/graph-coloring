@@ -156,6 +156,12 @@ int flatten (std::vector<std::vector<uint64_t>> * graph, std::vector<uint64_t> *
 	return data->size() * sizeof(uint64_t);
 }
 
+__global__
+void check_if_local_max(uint64_t * graph, uint64_t * indices, int * random, int * colors, uint8_t * states)
+{
+	//states[threadIdx.x] = 2;
+}
+
 int main (int argc, char *argv[])
 {
 
@@ -218,14 +224,14 @@ int main (int argc, char *argv[])
 	int statesSize = states->size() * sizeof(uint8_t);
 
 	// Send data to device
-	if (verbose) std::cout << "Sending graph to device...";
+	if (verbose) std::cout << "Sending graph to device... ";
 	
 	uint64_t * deviceDataPointer;
 	uint64_t * deviceIndicesPointer;
-	uint64_t * deviceRandomPointer;
-	uint64_t * deviceColorsPointer;
-	uint64_t * deviceStatesPointer;
-
+	int * deviceRandomPointer;
+	int * deviceColorsPointer;
+	uint8_t * deviceStatesPointer;
+	
 	cudaMalloc((void**)&deviceDataPointer, dataSize);
 	cudaMalloc((void**)&deviceIndicesPointer, indicesSize);
 	cudaMalloc((void**)&deviceRandomPointer, randomSize);
@@ -237,6 +243,32 @@ int main (int argc, char *argv[])
 	cudaMemcpy(deviceRandomPointer, random, randomSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(deviceColorsPointer, colors, colorsSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(deviceStatesPointer, states, statesSize, cudaMemcpyHostToDevice);
+
+	if (verbose) std::cout << "Done\n";
+
+	// Color
+	if (verbose) std::cout << "Color...\n";
+
+	dim3 dimBlock(graph.size(), 1);
+	dim3 dimGrid(1, 1);
+
+	check_if_local_max<<<dimGrid, dimBlock>>>(deviceDataPointer, deviceIndicesPointer, deviceRandomPointer, deviceColorsPointer, deviceStatesPointer);
+
+	if (verbose) std::cout << "Done\n";
+
+	// Get data back from device
+	if (verbose) std::cout << "Getting data back from device...\n";
+
+	cudaMemcpy(states, deviceStatesPointer, statesSize, cudaMemcpyDeviceToHost);
+
+	if (verbose)
+	{
+		for (int i = 0; i < states->size(); i++)
+		{
+			std::cout << "\t" << i << ": " << states->at(i) << std::endl;
+
+		}
+	}
 
 	if (verbose) std::cout << "Done\n";
 
