@@ -182,15 +182,18 @@ int main (int argc, char *argv[])
 	std::uniform_int_distribution<int> dist(INT_MIN, INT_MAX);
 	auto gen = std::bind(dist, mersenne_engine);
 
-	std::vector<int> random(graph.size());
+	std::vector<int> * random = new std::vector<int>(graph.size());
+	int randomSize = random->size() * sizeof(int);
 
-	std::generate(begin(random), end(random), gen);
+	if (verbose) std::cout << "\tSize: " << randomSize << std::endl;
+
+	std::generate(random->begin(), random->end(), gen);
 
 	if (verbose)
 	{
 		for (int i = 0; i < graph.size(); i++)
 		{
-			std::cout << "\t" << i << ": " << random.at(i) << std::endl;
+			std::cout << "\t" << i << ": " << random->at(i) << std::endl;
 		}
 	}
 
@@ -207,17 +210,20 @@ int main (int argc, char *argv[])
 
 	if (verbose) std::cout << "Done\n";
 
-	// Send graph to device
+	// Send data to device
 	if (verbose) std::cout << "Sending graph to device...";
 	
 	uint64_t * deviceDataPointer;
 	uint64_t * deviceIndicesPointer;
+	uint64_t * deviceRandomPointer;
 
 	cudaMalloc((void**)&deviceDataPointer, dataSize);
 	cudaMalloc((void**)&deviceIndicesPointer, indicesSize);
+	cudaMalloc((void**)&deviceRandomPointer, randomSize);
 
 	cudaMemcpy(deviceDataPointer, data, dataSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(deviceIndicesPointer, indices, indicesSize, cudaMemcpyHostToDevice);
+	cudaMemcpy(deviceRandomPointer, random, randomSize, cudaMemcpyHostToDevice);
 
 	if (verbose) std::cout << "Done\n";
 
