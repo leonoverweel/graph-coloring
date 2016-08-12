@@ -210,20 +210,33 @@ int main (int argc, char *argv[])
 
 	if (verbose) std::cout << "Done\n";
 
+	// Set up color and state vectors
+	std::vector<int> * colors = new std::vector<int>(graph.size());
+	std::vector<uint8_t> * states = new std::vector<uint8_t>(graph.size());
+
+	int colorsSize = colors->size() * sizeof(int);
+	int statesSize = states->size() * sizeof(uint8_t);
+
 	// Send data to device
 	if (verbose) std::cout << "Sending graph to device...";
 	
 	uint64_t * deviceDataPointer;
 	uint64_t * deviceIndicesPointer;
 	uint64_t * deviceRandomPointer;
+	uint64_t * deviceColorsPointer;
+	uint64_t * deviceStatesPointer;
 
 	cudaMalloc((void**)&deviceDataPointer, dataSize);
 	cudaMalloc((void**)&deviceIndicesPointer, indicesSize);
 	cudaMalloc((void**)&deviceRandomPointer, randomSize);
+	cudaMalloc((void**)&deviceColorsPointer, colorsSize);
+	cudaMalloc((void**)&deviceStatesPointer, statesSize);
 
 	cudaMemcpy(deviceDataPointer, data, dataSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(deviceIndicesPointer, indices, indicesSize, cudaMemcpyHostToDevice);
 	cudaMemcpy(deviceRandomPointer, random, randomSize, cudaMemcpyHostToDevice);
+	cudaMemcpy(deviceColorsPointer, colors, colorsSize, cudaMemcpyHostToDevice);
+	cudaMemcpy(deviceStatesPointer, states, statesSize, cudaMemcpyHostToDevice);
 
 	if (verbose) std::cout << "Done\n";
 
